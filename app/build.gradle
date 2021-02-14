@@ -48,6 +48,8 @@ dependencies {
     implementation Libraries.compose_ui
     implementation Libraries.compose_material
     implementation Libraries.compose_tooling
+    implementation Libraries.hilt
+    kapt Libraries.hilt_compiler
     implementation Libraries.ktx_runtime
     testImplementation Libraries.junit
     androidTestImplementation Libraries.junit_ext

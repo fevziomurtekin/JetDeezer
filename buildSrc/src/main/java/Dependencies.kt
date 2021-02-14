@@ -55,4 +55,8 @@ object Libraries {
 
     private val espresso_core_version = "3.3.0"
     val espresso = "androidx.test.espresso:espresso-core:$espresso_core_version"
+
+    private val hilt_version = "2.28-alpha"
+    val hilt = "com.google.dagger:hilt-android:$hilt_version"
+    val hilt_compiler = "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
