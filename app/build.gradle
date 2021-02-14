@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdkVersion AppInfo.compileVersion
+
+    defaultConfig {
+        applicationId AppInfo.applicationId
+        minSdkVersion AppInfo.minSdkVersion
+        targetSdkVersion AppInfo.targetSdkVersion
+        versionCode AppInfo.versionCode
+        versionName AppInfo.versionName
+
+        testInstrumentationRunner AppInfo.testInstrumentationRunner
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(AppInfo.proguard_txt), AppInfo.proguard_rules
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = AppInfo.jvmTarget
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Libraries.compose_version
+        kotlinCompilerVersion Libraries.kotlinCompilerVersion
+    }
+}
+
+dependencies {
+
+    implementation Libraries.ktx
+    implementation Libraries.appcompat
+    implementation Libraries.material
+    implementation Libraries.compose_ui
+    implementation Libraries.compose_material
+    implementation Libraries.compose_tooling
+    implementation Libraries.ktx_runtime
+    testImplementation Libraries.junit
+    androidTestImplementation Libraries.junit_ext
+    androidTestImplementation Libraries.espresso
+}
