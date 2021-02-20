@@ -21,6 +21,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile(AppInfo.proguard_txt), AppInfo.proguard_rules
+            buildConfigField("String", "DEEZER_URL", "\"${AppInfo.baseUrl}\"")
+            buildConfigField("String", "DEEZER_DATABASE_NAME", "\"${AppInfo.databaseName}\"")
+        }
+        debug {
+            buildConfigField("String", "DEEZER_URL", "\"${AppInfo.baseUrl}\"")
+            buildConfigField("String", "DEEZER_DATABASE_NAME", "\"${AppInfo.databaseName}\"")
         }
     }
     compileOptions {
@@ -55,6 +61,7 @@ dependencies {
 
     // Hilt
     implementation Libraries.hilt
+    implementation 'androidx.work:work-runtime:2.4.0'
     kapt Libraries.hilt_compiler
 
     // Retrofit & Okhttp
