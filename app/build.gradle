@@ -42,15 +42,51 @@ android {
 
 dependencies {
 
+    // Ktx - Appcompat - material
     implementation Libraries.ktx
+    implementation Libraries.ktx_runtime
     implementation Libraries.appcompat
     implementation Libraries.material
+
+    // Compose
     implementation Libraries.compose_ui
     implementation Libraries.compose_material
     implementation Libraries.compose_tooling
+
+    // Hilt
     implementation Libraries.hilt
     kapt Libraries.hilt_compiler
-    implementation Libraries.ktx_runtime
+
+    // Retrofit & Okhttp
+    implementation Libraries.retrofit
+    implementation Libraries.retrofit_converter
+    implementation Libraries.retrofit_adapter
+    implementation Libraries.okhttp
+    implementation Libraries.okhtpp_logging
+
+    //Room
+    implementation Libraries.room
+    implementation Libraries.room_ktx
+    kapt Libraries.room_compiler
+    testImplementation Libraries.room_testing
+
+    // Pagging
+    implementation Libraries.pagging
+
+    // Coroutines
+    implementation Libraries.coroutines_android
+    implementation Libraries.coroutines_core
+    testImplementation Libraries.coroutines_test
+
+    // Exoplayer
+    implementation Libraries.exoplayer_core
+    implementation Libraries.exoplayer_dash
+    implementation Libraries.exoplayer_ui
+
+    // Timber
+    implementation Libraries.timber
+
+    // Test
     testImplementation Libraries.junit
     androidTestImplementation Libraries.junit_ext
     androidTestImplementation Libraries.espresso
