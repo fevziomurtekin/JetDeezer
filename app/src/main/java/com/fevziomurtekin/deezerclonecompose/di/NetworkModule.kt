@@ -1,19 +1,21 @@
 package com.fevziomurtekin.deezerclonecompose.di
 
 import com.fevziomurtekin.deezerclonecompose.BuildConfig
+import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerInterceptor
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(Singleton::class)
+@InstallIn(ActivityComponent::class)
 object NetworkModule {
 
     @Provides
@@ -34,4 +36,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideDeezerService(retrofit:Retrofit) = retrofit.create(DeezerService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDeezerClient(deezerService: DeezerService) = DeezerClient(deezerService)
 }

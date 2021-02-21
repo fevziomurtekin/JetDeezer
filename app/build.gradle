@@ -59,10 +59,24 @@ dependencies {
     implementation Libraries.compose_material
     implementation Libraries.compose_tooling
 
+    // Livedata
+    implementation Libraries.lifecycle
+    implementation Libraries.lifecycle_runtime
+    implementation Libraries.lifecycle_livedata
+    implementation Libraries.viewmodel
+    implementation Libraries.viewmodel_savedState
+    kapt Libraries.lifecycle_kapt
+    kapt Libraries.lifecycle_compiler
+    testImplementation Libraries.lifecycle_test
+    androidTestImplementation Libraries.lifecycle_test
+
     // Hilt
     implementation Libraries.hilt
-    implementation 'androidx.work:work-runtime:2.4.0'
+    implementation Libraries.hilt_viewmodel
+    annotationProcessor Libraries.hilt_compiler
     kapt Libraries.hilt_compiler
+    kapt Libraries.hilt_androidx_compiler
+    kaptAndroidTest Libraries.hilt_androidx_compiler
 
     // Retrofit & Okhttp
     implementation Libraries.retrofit

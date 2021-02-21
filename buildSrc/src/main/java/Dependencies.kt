@@ -5,7 +5,7 @@ object Gradles{
     private val kotlin_gradle_version = "1.4.21"
     val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_gradle_version"
 
-    private val hilt_version = "2.31.2-alpha"
+    private val hilt_version = "2.32-alpha"
     val hilt = "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
 }
 
@@ -59,10 +59,27 @@ object Libraries {
     private val espresso_core_version = "3.3.0"
     val espresso = "androidx.test.espresso:espresso-core:$espresso_core_version"
 
+    // ViewModel & Lifecycle
+    private val lifecycle_version = "2.2.0"
+    private val fragment_version = "1.2.5"
+    val lifecycle           = "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    val lifecycle_compiler  = "android.arch.lifecycle:compiler:$lifecycle_version"
+    val lifecycle_test      = "android.arch.core:core-testing:$lifecycle_version"
+    val lifecycle_runtime   = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    val lifecycle_livedata  = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    val viewmodel           = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    val viewmodel_savedState= "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    val lifecycle_kapt      = "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    val lifecycle_fragment  = "androidx.fragment:fragment-ktx:$fragment_version"
+
     // Hilt
     private val hilt_version = "2.28-alpha"
+    private val hilt_androidx_version = "1.0.0-alpha02"
     val hilt = "com.google.dagger:hilt-android:$hilt_version"
     val hilt_compiler = "com.google.dagger:hilt-android-compiler:$hilt_version"
+    val hilt_androidx_compiler = "androidx.hilt:hilt-compiler:$hilt_androidx_version"
+    val hilt_viewmodel = "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_androidx_version"
+    val hilt_common = "androidx.hilt:hilt-common:$hilt_version"
 
     // Coroutines
     private val coroutines_version = "1.3.9"

@@ -3,13 +3,15 @@ package com.fevziomurtekin.deezerclonecompose.di
 import android.app.Application
 import androidx.room.Room
 import com.fevziomurtekin.deezerclonecompose.BuildConfig
+import com.fevziomurtekin.deezerclonecompose.data.service.local.DeezerDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ActivityComponent::class)
 object RoomModule{
 
     @Provides
