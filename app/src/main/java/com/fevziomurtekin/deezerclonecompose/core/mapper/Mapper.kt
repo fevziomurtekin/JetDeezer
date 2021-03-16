@@ -3,7 +3,7 @@ package com.fevziomurtekin.deezerclonecompose.core.mapper
 import com.fevziomurtekin.deezerclonecompose.data.entities.AlbumEntity
 import com.fevziomurtekin.deezerclonecompose.data.entities.GenreEntity
 import com.fevziomurtekin.deezerclonecompose.data.response.AlbumData
-import com.fevziomurtekin.deezerclonecompose.data.response.genre.Genre
+import com.fevziomurtekin.deezerclonecompose.data.response.Genre
 import timber.log.Timber
 
 fun AlbumEntity?.mapper(): AlbumData? = this?.let { e->

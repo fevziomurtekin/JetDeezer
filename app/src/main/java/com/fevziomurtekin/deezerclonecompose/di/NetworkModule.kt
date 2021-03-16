@@ -4,18 +4,20 @@ import com.fevziomurtekin.deezerclonecompose.BuildConfig
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerInterceptor
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerService
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Provides
@@ -30,7 +32,11 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(BuildConfig.DEEZER_URL)
-        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+        .addConverterFactory(
+            MoshiConverterFactory.create(
+            Moshi.Builder()
+                .addLast(KotlinJsonAdapterFactory())
+                .build()))
         .build()
 
     @Provides

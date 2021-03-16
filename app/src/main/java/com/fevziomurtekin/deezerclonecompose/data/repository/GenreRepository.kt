@@ -10,8 +10,8 @@ import com.fevziomurtekin.deezerclonecompose.data.datasource.networkCall
 import com.fevziomurtekin.deezerclonecompose.data.entities.GenreEntity
 import com.fevziomurtekin.deezerclonecompose.data.getResult
 import com.fevziomurtekin.deezerclonecompose.data.isSuccessAndNotNull
-import com.fevziomurtekin.deezerclonecompose.data.response.genre.Genre
-import com.fevziomurtekin.deezerclonecompose.data.response.genre.GenreResponse
+import com.fevziomurtekin.deezerclonecompose.data.response.Genre
+import com.fevziomurtekin.deezerclonecompose.data.response.GenreResponse
 import com.fevziomurtekin.deezerclonecompose.data.service.local.DeezerDao
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
 import kotlinx.coroutines.Dispatchers

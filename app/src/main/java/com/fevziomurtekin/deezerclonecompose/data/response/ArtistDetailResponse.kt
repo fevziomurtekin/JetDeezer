@@ -1,20 +1,20 @@
 package com.fevziomurtekin.deezerclonecompose.data.response
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 data class ArtistDetailResponse(
-    @SerializedName("id") val id: String,
-    @SerializedName("link") val link: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("nb_album") val nb_album: Int,
-    @SerializedName("nb_fan") val nb_fan: Int,
-    @SerializedName("picture") val picture: String,
-    @SerializedName("picture_big") val picture_big: String,
-    @SerializedName("picture_medium") val picture_medium: String,
-    @SerializedName("picture_small") val picture_small: String,
-    @SerializedName("picture_xl") val picture_xl: String,
-    @SerializedName("radio") val radio: Boolean,
-    @SerializedName("share") val share: String,
-    @SerializedName("tracklist") val tracklist: String,
-    @SerializedName("type") val type: String
+    @field:Json(name = "id") val id: String,
+    @field:Json(name = "link") val link: String,
+    @field:Json(name = "name") val name: String,
+    @field:Json(name = "nb_album") val nb_album: Int,
+    @field:Json(name = "nb_fan") val nb_fan: Int,
+    @field:Json(name = "picture") val picture: String,
+    @field:Json(name = "picture_big") val picture_big: String,
+    @field:Json(name = "picture_medium") val picture_medium: String,
+    @field:Json(name = "picture_small") val picture_small: String,
+    @field:Json(name = "picture_xl") val picture_xl: String,
+    @field:Json(name = "radio") val radio: Boolean,
+    @field:Json(name = "share") val share: String,
+    @field:Json(name = "tracklist") val tracklist: String,
+    @field:Json(name = "type") val type: String
 )

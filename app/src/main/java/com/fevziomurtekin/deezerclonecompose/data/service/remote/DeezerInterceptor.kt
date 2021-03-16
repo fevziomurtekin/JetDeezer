@@ -9,14 +9,14 @@ class DeezerInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
         val response: Response = chain.proceed(request)
-        when(response.code()){
-            in 400 .. 500 -> {
-                // showErrorDialog()
-            }
-            else -> {
-                // no proccess.
-            }
-        }
+       //when(response.code()){
+       //    in 400 .. 500 -> {
+       //        // showErrorDialog()
+       //    }
+       //    else -> {
+       //        // no proccess.
+       //    }
+       //}
         return response
     }
 

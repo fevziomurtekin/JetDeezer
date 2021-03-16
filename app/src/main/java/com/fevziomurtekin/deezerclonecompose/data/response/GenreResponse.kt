@@ -1,14 +1,16 @@
-package com.fevziomurtekin.deezerclonecompose.data.response.genre
+package com.fevziomurtekin.deezerclonecompose.data.response
+
+import com.squareup.moshi.Json
 
 
 data class GenreResponse(
-        val data: List<Genre>
+        @field:Json(name = "data") val data: List<Genre>
 )
 
 data class Genre(
-        val id: String,
-        val name: String,
-        val picture: String,
-        val picture_medium: String,
-        val type: String
+        @field:Json(name = "id") val id: String,
+        @field:Json(name = "name") val name: String,
+        @field:Json(name = "picture") val picture: String,
+        @field:Json(name = "picture_medium") val picture_medium: String,
+        @field:Json(name = "type") val type: String
 )

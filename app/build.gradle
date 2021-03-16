@@ -1,6 +1,8 @@
+import com.fevziomurtekin.deezerclonecompose.buildsrc.AppInfo
+import com.fevziomurtekin.deezerclonecompose.buildsrc.Libs
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
@@ -29,86 +31,87 @@ android {
             buildConfigField("String", "DEEZER_DATABASE_NAME", "\"${AppInfo.databaseName}\"")
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+
     kotlinOptions {
-        jvmTarget = AppInfo.jvmTarget
-        useIR = true
+        jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose true
+
+        // Disable unused AGP features
+        buildConfig true
+        aidl false
+        renderScript false
+        resValues false
+        shaders false
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion Libraries.compose_version
-        kotlinCompilerVersion Libraries.kotlinCompilerVersion
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+    }
+
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
     }
 }
 
 dependencies {
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.AndroidX.ktx
+    implementation Libs.AndroidX.material
+    implementation Libs.AndroidX.appcompat
+    implementation Libs.Kotlin.Coroutines.android
 
-    // Ktx - Appcompat - material
-    implementation Libraries.ktx
-    implementation Libraries.ktx_runtime
-    implementation Libraries.appcompat
-    implementation Libraries.material
+    implementation Libs.Accompanist.coil
+    implementation Libs.AndroidX.Activity.activityCompose
+    implementation Libs.AndroidX.Compose.runtime
+    implementation Libs.AndroidX.Compose.runtimeLivedata
+    implementation Libs.AndroidX.Compose.foundation
+    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.layout
+    implementation Libs.AndroidX.Compose.animation
+    implementation Libs.AndroidX.Compose.tooling
+    implementation Libs.AndroidX.Lifecycle.viewModelCompose
 
-    // Compose
-    implementation Libraries.compose_ui
-    implementation Libraries.compose_material
-    implementation Libraries.compose_tooling
+    implementation Libs.Network.retrofit
+    implementation Libs.Network.moshi
+    implementation Libs.Network.moshi_kotlin
+    implementation Libs.Network.retrofit_converter
+    implementation Libs.Network.okhttp
 
-    // Livedata
-    implementation Libraries.lifecycle
-    implementation Libraries.lifecycle_runtime
-    implementation Libraries.lifecycle_livedata
-    implementation Libraries.viewmodel
-    implementation Libraries.viewmodel_savedState
-    kapt Libraries.lifecycle_kapt
-    kapt Libraries.lifecycle_compiler
-    testImplementation Libraries.lifecycle_test
-    androidTestImplementation Libraries.lifecycle_test
+    implementation Libs.AndroidX.Lifecycle.viewModelKtx
+    implementation Libs.Hilt.android
+    implementation Libs.Hilt.viewmodel
+    kapt Libs.Hilt.android_compiler
+    kapt Libs.Hilt.compiler
 
-    // Hilt
-    implementation Libraries.hilt
-    implementation Libraries.hilt_viewmodel
-    annotationProcessor Libraries.hilt_compiler
-    kapt Libraries.hilt_compiler
-    kapt Libraries.hilt_androidx_compiler
-    kaptAndroidTest Libraries.hilt_androidx_compiler
+    implementation Libs.Exoplayer.exoplayer_core
+    implementation Libs.Exoplayer.exoplayer_dash
+    implementation Libs.Exoplayer.exoplayer_ui
 
-    // Retrofit & Okhttp
-    implementation Libraries.retrofit
-    implementation Libraries.retrofit_converter
-    implementation Libraries.retrofit_adapter
-    implementation Libraries.okhttp
-    implementation Libraries.okhtpp_logging
+    implementation(Libs.Local.room)
+    implementation(Libs.Local.room_ktx)
+    kapt(Libs.Local.room_compiler)
+    testImplementation(Libs.Local.room_testing)
 
-    //Room
-    implementation Libraries.room
-    implementation Libraries.room_ktx
-    kapt Libraries.room_compiler
-    testImplementation Libraries.room_testing
+    implementation Libs.Timber.android
 
-    // Pagging
-    implementation Libraries.pagging
+    // FIXME: only needed for Compose alpha12
+    androidTestImplementation Libs.AndroidX.Activity.activityCompose
 
-    // Coroutines
-    implementation Libraries.coroutines_android
-    implementation Libraries.coroutines_core
-    testImplementation Libraries.coroutines_test
+    androidTestImplementation Libs.JUnit.junit
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.espressoCore
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.Ext.junit
+    androidTestImplementation Libs.Kotlin.Coroutines.test
+    androidTestImplementation Libs.AndroidX.Compose.uiTest
+    androidTestImplementation Libs.Hilt.android
+    androidTestImplementation Libs.Hilt.testing
+    kaptAndroidTest Libs.Hilt.compiler
 
-    // Exoplayer
-    implementation Libraries.exoplayer_core
-    implementation Libraries.exoplayer_dash
-    implementation Libraries.exoplayer_ui
-
-    // Timber
-    implementation Libraries.timber
-
-    // Test
-    testImplementation Libraries.junit
-    androidTestImplementation Libraries.junit_ext
-    androidTestImplementation Libraries.espresso
 }

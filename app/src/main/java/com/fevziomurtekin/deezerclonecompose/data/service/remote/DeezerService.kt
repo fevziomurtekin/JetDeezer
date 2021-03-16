@@ -1,7 +1,7 @@
 package com.fevziomurtekin.deezerclonecompose.data.service.remote
 
 import com.fevziomurtekin.deezerclonecompose.data.response.*
-import com.fevziomurtekin.deezerclonecompose.data.response.genre.GenreResponse
+import com.fevziomurtekin.deezerclonecompose.data.response.GenreResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

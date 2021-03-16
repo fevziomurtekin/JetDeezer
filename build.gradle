@@ -1,19 +1,42 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import com.fevziomurtekin.deezerclonecompose.buildsrc.Libs
+
 buildscript {
     repositories {
         google()
         jcenter()
+        gradlePluginPortal()
     }
     dependencies {
-        classpath Gradles.gradle
-        classpath Gradles.kotlin
-        classpath Gradles.hilt
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath Libs.androidGradlePlugin
+        classpath Libs.Kotlin.gradlePlugin
+        classpath Libs.Hilt.gradlePlugin
     }
+}
+
+plugins{
+    id("io.gitlab.arturbosch.detekt").version("1.16.0")
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task detektDeezer(type: io.gitlab.arturbosch.detekt.Detekt){
+    description = "Run on Deezer Detekt"
+    buildUponDefaultConfig = true
+    autoCorrect = true
+    parallel = true
+    setSource(files(projectDir))
+    config.setFrom(files("$rootDir/detekt/config.yml"))
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/build/**")
+    exclude("**/buildSrc/**")
+    exclude("**/test/**/*.kt")
+    reports {
+        xml.enabled = false
+        html.enabled = false
+        txt.enabled = false
+    }
 }
