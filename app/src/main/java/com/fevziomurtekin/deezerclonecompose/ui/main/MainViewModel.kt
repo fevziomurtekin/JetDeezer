@@ -2,17 +2,16 @@ package com.fevziomurtekin.deezerclonecompose.ui.main
 
 import android.accounts.NetworkErrorException
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.lifecycle.ViewModelInject
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
 import com.fevziomurtekin.deezerclonecompose.data.repository.GenreRepository
 import com.fevziomurtekin.deezerclonecompose.data.response.Genre
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,12 +22,12 @@ class MainViewModel @Inject constructor(
     private val genreRepository: GenreRepository
 ): ViewModel(){
 
-    private var _genreLiveData: Flow<DeezerResult<List<Genre>?>>
-        = MutableStateFlow(DeezerResult.Loading)
+    private var _genreState: MutableState<DeezerResult<List<Genre>?>>
+        = mutableStateOf(DeezerResult.Loading)
 
     @VisibleForTesting
-    val genreListLiveData: Flow<DeezerResult<List<Genre>?>>
-        get() = _genreLiveData
+    val genreState: State<DeezerResult<List<Genre>?>>
+        get() = _genreState
 
     private var _splashShown = MutableLiveData(true)
     val splashShown get() = _splashShown
@@ -45,7 +44,11 @@ class MainViewModel @Inject constructor(
     fun fetchGenreList(){
         viewModelScope.launch {
             try {
-                _genreLiveData = genreRepository.fetchGenreList()
+                genreRepository
+                        .fetchGenreList()
+                        .collect {
+                            _genreState.value = it
+                        }
             }catch (e: NetworkErrorException){
                 isNetworkError.value = true
             }

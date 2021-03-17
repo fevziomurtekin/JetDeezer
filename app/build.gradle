@@ -75,6 +75,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.layout
     implementation Libs.AndroidX.Compose.animation
     implementation Libs.AndroidX.Compose.tooling
+    implementation Libs.AndroidX.Compose.navigation
     implementation Libs.AndroidX.Lifecycle.viewModelCompose
 
     implementation Libs.Network.retrofit
@@ -107,6 +108,7 @@ dependencies {
     androidTestImplementation Libs.AndroidX.Test.runner
     androidTestImplementation Libs.AndroidX.Test.espressoCore
     androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.navigation_runtime
     androidTestImplementation Libs.AndroidX.Test.Ext.junit
     androidTestImplementation Libs.Kotlin.Coroutines.test
     androidTestImplementation Libs.AndroidX.Compose.uiTest

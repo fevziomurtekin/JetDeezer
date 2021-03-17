@@ -25,8 +25,7 @@ class GenreRepository @Inject constructor(
     val deezerClient: DeezerClient,
     val deezerDao: DeezerDao
 ): GenreRepositoryImpl {
-    override suspend fun fetchGenreList(): Flow<DeezerResult<List<Genre>?>> =  flow {
-        emit(DeezerResult.Loading)
+    override suspend fun fetchGenreList(): Flow<DeezerResult<List<Genre>?>> = flow {
         localCallFetch {
             deezerDao.getGenreList()
         }.let { localResult ->
