@@ -1,10 +1,12 @@
-package com.fevziomurtekin.deezerclonecompose.ui.genre
+package com.fevziomurtekin.deezerclonecompose.ui.details
 
-import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,22 +21,30 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
-import com.fevziomurtekin.deezerclonecompose.data.response.Genre
-import com.fevziomurtekin.deezerclonecompose.ui.main.MainViewModel
+import com.fevziomurtekin.deezerclonecompose.data.response.ArtistData
+import com.fevziomurtekin.deezerclonecompose.ui.home.GenreList
+import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
 import com.fevziomurtekin.deezerclonecompose.ui.util.CircularLoadingView
 import com.fevziomurtekin.deezerclonecompose.ui.util.ErrorScreen
+import com.fevziomurtekin.deezerclonecompose.ui.util.Screens
 import dev.chrisbanes.accompanist.coil.CoilImage
 import dev.chrisbanes.accompanist.imageloading.ImageLoadState
 import dev.chrisbanes.accompanist.imageloading.MaterialLoadingImage
 import kotlinx.coroutines.launch
 
 @Composable
-fun GenreScreen(viewModel: MainViewModel) {
+fun DetailScreen(
+        navController: NavHostController,
+        viewModel: DeezerViewModel,
+        id: Int
+) {
     val scope = rememberCoroutineScope()
-    viewModel.fetchGenreList()
-    val genres = viewModel.genreState
-    when(val result = genres.value) {
+    viewModel.fetchArtists(id.toString())
+    val artists = viewModel.artistsState
+    when(val result = artists.value) {
         is DeezerResult.Error -> {
             ErrorScreen(retryClick = {
                 scope.launch {
@@ -43,7 +53,7 @@ fun GenreScreen(viewModel: MainViewModel) {
             })
         }
         is DeezerResult.Success -> {
-           result.data?.let { GenreList(it) }
+            result.data?.let { ArtistList(it, navController) }
         }
         else -> {
             CircularLoadingView()
@@ -53,22 +63,24 @@ fun GenreScreen(viewModel: MainViewModel) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GenreList(list: List<Genre>) {
+fun ArtistList(list: List<ArtistData>, navController: NavHostController) {
     LazyVerticalGrid(cells = GridCells.Fixed(2) ) {
-        items(list) { genre ->
-            CoilImage(data = genre.picture) { imageState ->
+        items(list) { artist ->
+            CoilImage(data = artist.picture) { imageState ->
                 when (imageState) {
                     is ImageLoadState.Success -> {
                         Card(modifier = Modifier
+                                .padding(16.dp)
                                 .fillMaxWidth()
-                                .fillMaxHeight(0.5f)
-                                .padding(8.dp),
+                                .clickable {
+                                    navController.navigate(Screens.createGenreDirections(artist.id))
+                                },
                                 elevation = 16.dp,
-                                shape = RoundedCornerShape(16.dp)
+                                shape = RoundedCornerShape(16.dp),
                         ) {
                             Box(
-                               modifier = Modifier.fillMaxSize(),
-                               contentAlignment = Alignment.Center
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
                             ) {
                                 MaterialLoadingImage(
                                         result = imageState,
@@ -79,7 +91,7 @@ fun GenreList(list: List<Genre>) {
                                         contentScale = ContentScale.Crop,
                                         skipFadeWhenLoadedFromMemory = true
                                 )
-                                Text(text = genre.name, fontSize = 32.sp,
+                                Text(text = artist.name, fontSize = 32.sp,
                                         color = Color.White,
                                         fontWeight = FontWeight.Bold
 

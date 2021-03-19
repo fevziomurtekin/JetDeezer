@@ -1,5 +1,6 @@
 package com.fevziomurtekin.deezerclonecompose.di
 
+import com.fevziomurtekin.deezerclonecompose.data.repository.ArtistRepository
 import com.fevziomurtekin.deezerclonecompose.data.repository.GenreRepository
 import com.fevziomurtekin.deezerclonecompose.data.service.local.DeezerDao
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
@@ -21,6 +22,14 @@ object RepositoryModule {
     ): GenreRepository = GenreRepository(
         deezerClient = deezerClient,
         deezerDao = deezerDao
+    )
+
+    @Provides
+    @ViewModelScoped
+    fun provideArtistRepository(
+            deezerClient: DeezerClient
+    ): ArtistRepository = ArtistRepository(
+            deezerClient = deezerClient
     )
 
 }
