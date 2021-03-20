@@ -4,8 +4,7 @@ import com.squareup.moshi.Json
 
 
 data class ArtistsResponse(
-    @field:Json(name = "data")
-    val artistData: List<ArtistData>
+    @field:Json(name = "data") val data: List<ArtistData>
 )
 
 data class ArtistData(

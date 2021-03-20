@@ -9,6 +9,7 @@ import com.fevziomurtekin.deezerclonecompose.data.response.ArtistsResponse
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
 import kotlinx.coroutines.Dispatchers
 import com.fevziomurtekin.deezerclonecompose.data.getResult
+import com.fevziomurtekin.deezerclonecompose.data.response.ArtistDetailResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,7 +24,6 @@ class ArtistRepository(
 
     override fun fetchArtistList(genreID:String)
             = flow {
-        emit(DeezerResult.Loading)
         networkCall {
             deezerClient.fetchArtistList(genreID)
         }.let { apiResult ->
@@ -31,10 +31,24 @@ class ArtistRepository(
                 emit(
                         DeezerResult.Success(
                                 (apiResult.getResult() as ArtistsResponse)
-                                        .artistData
+                                        .data
                         )
                 )
             }.letOnFalseOnSuspend {
+                delay(FAKE_DELAY_TIME)
+                emit(DeezerResult.Error(Exception("Unexpected error.")))
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override fun fetchArtistDetails(artistID:String) = flow {
+        networkCall {
+            deezerClient.fetchArtistDetails(artistID)
+        }.let { apiResult ->
+            apiResult.isSuccessAndNotNull().letOnTrueOnSuspend {
+                emit(DeezerResult.Success(apiResult.getResult() as ArtistDetailResponse))
+            }.letOnTrueOnSuspend {
+                /* fake call */
                 delay(FAKE_DELAY_TIME)
                 emit(DeezerResult.Error(Exception("Unexpected error.")))
             }
@@ -51,5 +65,7 @@ interface ArtistRepositoryImpl {
      * @return Result.Error or Result.Succes(List<ArtistData>)
      * */
     fun fetchArtistList(genreID:String): Flow<DeezerResult<*>>
+
+    fun fetchArtistDetails(artistID: String) : Flow<DeezerResult<*>>
 
 }

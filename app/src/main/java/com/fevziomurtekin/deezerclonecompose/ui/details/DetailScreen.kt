@@ -73,7 +73,7 @@ fun ArtistList(list: List<ArtistData>, navController: NavHostController) {
                                 .padding(16.dp)
                                 .fillMaxWidth()
                                 .clickable {
-                                    navController.navigate(Screens.createGenreDirections(artist.id))
+                                    navController.navigate(Screens.createArtistsDirections(artist.id))
                                 },
                                 elevation = 16.dp,
                                 shape = RoundedCornerShape(16.dp),

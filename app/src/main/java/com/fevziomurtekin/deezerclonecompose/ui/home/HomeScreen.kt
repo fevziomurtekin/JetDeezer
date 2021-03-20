@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import androidx.navigation.compose.navigate
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
 import com.fevziomurtekin.deezerclonecompose.data.response.Genre
 import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
+import com.fevziomurtekin.deezerclonecompose.ui.main.SplashScreen
 import com.fevziomurtekin.deezerclonecompose.ui.util.CircularLoadingView
 import com.fevziomurtekin.deezerclonecompose.ui.util.ErrorScreen
 import com.fevziomurtekin.deezerclonecompose.ui.util.Screens
@@ -38,19 +40,26 @@ fun HomeScreen(navController: NavHostController, viewModel: DeezerViewModel) {
     val scope = rememberCoroutineScope()
     viewModel.fetchGenreList()
     val genres = viewModel.genreState
-    when(val result = genres.value) {
-        is DeezerResult.Error -> {
-            ErrorScreen(retryClick = {
-                scope.launch {
-                    /* TODO retry click */
-                }
-            })
-        }
-        is DeezerResult.Success -> {
-           result.data?.let { GenreList(it, navController) }
-        }
-        else -> {
-            CircularLoadingView()
+    val isShownSplash = viewModel.splashShown.observeAsState(true)
+    viewModel.showSplashScreen()
+
+    if(isShownSplash.value) {
+        SplashScreen()
+    } else {
+        when (val result = genres.value) {
+            is DeezerResult.Error -> {
+                ErrorScreen(retryClick = {
+                    scope.launch {
+                        /* TODO retry click */
+                    }
+                })
+            }
+            is DeezerResult.Success -> {
+                result.data?.let { GenreList(it, navController) }
+            }
+            else -> {
+                CircularLoadingView()
+            }
         }
     }
 }
