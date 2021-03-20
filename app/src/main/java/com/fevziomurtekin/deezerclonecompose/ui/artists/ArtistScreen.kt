@@ -1,6 +1,5 @@
 package com.fevziomurtekin.deezerclonecompose.ui.artists
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +27,22 @@ fun ArtistScreen(
     viewModel: DeezerViewModel,
     artistId: Int
 ) {
+    val scope = rememberCoroutineScope()
     viewModel.fetchArtistDetails(artistId.toString())
     val artistDetails = viewModel.artistDetailState
     when (val result = artistDetails.value) {
         is DeezerResult.Success -> {
-            ArtistDetail(result.data, navController)
+            ArtistDetail(result.data,
+                    viewModel,
+                    artistId,
+                    navController)
+        }
+        is DeezerResult.Error -> {
+            ErrorScreen(retryClick = {
+                scope.launch {
+                    /* TODO retry click */
+                }
+            })
         }
         else -> {
             CircularLoadingView()
@@ -43,35 +53,41 @@ fun ArtistScreen(
 @Composable
 fun ArtistDetail(
     details: ArtistDetailResponse,
+    viewModel: DeezerViewModel,
+    artistId: Int,
     navController: NavHostController
 ) {
-    Box {
-        CoilImage(data = details.picture_big) { imageState ->
-            when (imageState) {
-                is ImageLoadState.Success -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        MaterialLoadingImage(
-                            result = imageState,
-                            contentDescription = null,
-                            fadeInEnabled = true,
-                            fadeInDurationMs = 600,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.FillBounds,
-                            skipFadeWhenLoadedFromMemory = true
-                        )
+    Column {
+        Box {
+            CoilImage(data = details.picture_big) { imageState ->
+                when (imageState) {
+                    is ImageLoadState.Success -> {
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(200.dp)
+                        ) {
+                            MaterialLoadingImage(
+                                    result = imageState,
+                                    contentDescription = null,
+                                    fadeInEnabled = true,
+                                    fadeInDurationMs = 600,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.FillBounds,
+                                    skipFadeWhenLoadedFromMemory = true
+                            )
+                        }
                     }
+                    else -> Unit
                 }
-                else -> Unit
             }
+            Text(
+                    modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                    text = details.name, fontSize = 20.sp, color = Color.White)
         }
-        Text(
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .fillMaxWidth()
-                .padding(16.dp),
-            text = details.name, fontSize = 20.sp, color= Color.White)
+        ArtistAlbumScreen(artistId, viewModel, navController)
     }
 }

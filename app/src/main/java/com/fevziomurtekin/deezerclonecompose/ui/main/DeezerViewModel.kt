@@ -7,12 +7,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
+import com.fevziomurtekin.deezerclonecompose.data.repository.AlbumRepository
 import com.fevziomurtekin.deezerclonecompose.data.repository.ArtistRepository
 import com.fevziomurtekin.deezerclonecompose.data.repository.GenreRepository
-import com.fevziomurtekin.deezerclonecompose.data.response.ArtistData
-import com.fevziomurtekin.deezerclonecompose.data.response.ArtistDetailResponse
-import com.fevziomurtekin.deezerclonecompose.data.response.ArtistsResponse
-import com.fevziomurtekin.deezerclonecompose.data.response.Genre
+import com.fevziomurtekin.deezerclonecompose.data.response.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -24,7 +22,8 @@ private const val SPLASH_SCREEN_DELAY = 2000L
 @HiltViewModel
 class DeezerViewModel @Inject constructor(
     private val genreRepository: GenreRepository,
-    private val artistRepository: ArtistRepository
+    private val artistRepository: ArtistRepository,
+    private val albumRepository: AlbumRepository
 ): ViewModel(){
 
     private var _genreState: MutableState<DeezerResult<List<Genre>?>>
@@ -44,6 +43,18 @@ class DeezerViewModel @Inject constructor(
     @VisibleForTesting
     val artistDetailState: State<DeezerResult<ArtistDetailResponse>>
         get() = _artistDetailState
+
+    private var _artistAlbumsState: MutableState<DeezerResult<ArtistAlbumResponse>>
+            = mutableStateOf(DeezerResult.Loading)
+    @VisibleForTesting
+    val artistAlbumsState: State<DeezerResult<ArtistAlbumResponse>>
+        get() = _artistAlbumsState
+
+    private var _albumDetailsState: MutableState<DeezerResult<List<AlbumData>>>
+            = mutableStateOf(DeezerResult.Loading)
+    @VisibleForTesting
+    val albumDetailsState: State<DeezerResult<List<AlbumData>>>
+        get() = _albumDetailsState
 
 
     private var _splashShown = MutableLiveData(true)
@@ -99,7 +110,34 @@ class DeezerViewModel @Inject constructor(
             }catch (e: NetworkErrorException){
                 isNetworkError.value = true
             }
+        }
+    }
 
+    fun fetchArtistAlbums(artistID: String) {
+        viewModelScope.launch {
+            try {
+                artistRepository
+                        .fetchArtistAlbums(artistID = artistID)
+                        .collect { artistAlbums->
+                            _artistAlbumsState.value = artistAlbums
+                        }
+            }catch (e: NetworkErrorException){
+                isNetworkError.value = true
+            }
+        }
+    }
+
+    fun fetchAlbumDetails(albumID: String) {
+        viewModelScope.launch {
+            try {
+                albumRepository
+                    .fetchAlbumDetails(albumID = albumID)
+                    .collect { albumDetails ->
+                        _albumDetailsState.value = albumDetails
+                    }
+            }catch (e: NetworkErrorException){
+                isNetworkError.value = true
+            }
         }
     }
 }

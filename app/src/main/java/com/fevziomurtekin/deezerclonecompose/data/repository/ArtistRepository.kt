@@ -9,7 +9,9 @@ import com.fevziomurtekin.deezerclonecompose.data.response.ArtistsResponse
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
 import kotlinx.coroutines.Dispatchers
 import com.fevziomurtekin.deezerclonecompose.data.getResult
+import com.fevziomurtekin.deezerclonecompose.data.response.ArtistAlbumResponse
 import com.fevziomurtekin.deezerclonecompose.data.response.ArtistDetailResponse
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -23,7 +25,7 @@ class ArtistRepository(
 ): ArtistRepositoryImpl {
 
     override fun fetchArtistList(genreID:String)
-            = flow {
+    = flow {
         networkCall {
             deezerClient.fetchArtistList(genreID)
         }.let { apiResult ->
@@ -41,14 +43,29 @@ class ArtistRepository(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun fetchArtistDetails(artistID:String) = flow {
+    override fun fetchArtistDetails(artistID:String)
+    = flow {
         networkCall {
             deezerClient.fetchArtistDetails(artistID)
         }.let { apiResult ->
             apiResult.isSuccessAndNotNull().letOnTrueOnSuspend {
                 emit(DeezerResult.Success(apiResult.getResult() as ArtistDetailResponse))
-            }.letOnTrueOnSuspend {
-                /* fake call */
+            }.letOnFalseOnSuspend {
+                delay(FAKE_DELAY_TIME)
+                emit(DeezerResult.Error(Exception("Unexpected error.")))
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+
+
+    override fun fetchArtistAlbums(artistID: String)
+    = flow {
+        networkCall {
+            deezerClient.fetchArtistAlbums(artistID)
+        }.let { apiResult ->
+            apiResult.isSuccessAndNotNull().letOnTrueOnSuspend {
+                emit(DeezerResult.Success(apiResult.getResult() as ArtistAlbumResponse))
+            }.letOnFalseOnSuspend {
                 delay(FAKE_DELAY_TIME)
                 emit(DeezerResult.Error(Exception("Unexpected error.")))
             }
@@ -66,6 +83,8 @@ interface ArtistRepositoryImpl {
      * */
     fun fetchArtistList(genreID:String): Flow<DeezerResult<*>>
 
-    fun fetchArtistDetails(artistID: String) : Flow<DeezerResult<*>>
+    fun fetchArtistDetails(artistID: String): Flow<DeezerResult<*>>
+
+    fun fetchArtistAlbums(artistID: String): Flow<DeezerResult<*>>
 
 }
