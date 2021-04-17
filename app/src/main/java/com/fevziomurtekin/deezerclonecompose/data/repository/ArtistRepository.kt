@@ -3,15 +3,15 @@ package com.fevziomurtekin.deezerclonecompose.data.repository
 import com.fevziomurtekin.deezerclonecompose.core.utils.letOnFalseOnSuspend
 import com.fevziomurtekin.deezerclonecompose.core.utils.letOnTrueOnSuspend
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
-import com.fevziomurtekin.deezerclonecompose.data.datasource.networkCall
+import com.fevziomurtekin.deezerclonecompose.data.datasource.remoteCall
 import com.fevziomurtekin.deezerclonecompose.data.isSuccessAndNotNull
 import com.fevziomurtekin.deezerclonecompose.data.response.ArtistsResponse
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
-import kotlinx.coroutines.Dispatchers
 import com.fevziomurtekin.deezerclonecompose.data.getResult
 import com.fevziomurtekin.deezerclonecompose.data.response.ArtistAlbumResponse
 import com.fevziomurtekin.deezerclonecompose.data.response.ArtistDetailResponse
-import kotlinx.coroutines.SupervisorJob
+import com.fevziomurtekin.deezerclonecompose.di.IODispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,13 +20,14 @@ import kotlinx.coroutines.flow.flowOn
 
 private const val FAKE_DELAY_TIME = 1500L
 
-class ArtistRepository(
-        private val deezerClient: DeezerClient
-): ArtistRepositoryImpl {
+class ArtistRepositoryImpl(
+    private val deezerClient: DeezerClient,
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher
+): ArtistRepository {
 
     override fun fetchArtistList(genreID:String)
     = flow {
-        networkCall {
+        remoteCall {
             deezerClient.fetchArtistList(genreID)
         }.let { apiResult ->
             apiResult.isSuccessAndNotNull().letOnTrueOnSuspend {
@@ -41,11 +42,11 @@ class ArtistRepository(
                 emit(DeezerResult.Error(Exception("Unexpected error.")))
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
     override fun fetchArtistDetails(artistID:String)
     = flow {
-        networkCall {
+        remoteCall {
             deezerClient.fetchArtistDetails(artistID)
         }.let { apiResult ->
             apiResult.isSuccessAndNotNull().letOnTrueOnSuspend {
@@ -55,12 +56,12 @@ class ArtistRepository(
                 emit(DeezerResult.Error(Exception("Unexpected error.")))
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
 
     override fun fetchArtistAlbums(artistID: String)
     = flow {
-        networkCall {
+        remoteCall {
             deezerClient.fetchArtistAlbums(artistID)
         }.let { apiResult ->
             apiResult.isSuccessAndNotNull().letOnTrueOnSuspend {
@@ -70,12 +71,12 @@ class ArtistRepository(
                 emit(DeezerResult.Error(Exception("Unexpected error.")))
             }
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
 }
 
 
-interface ArtistRepositoryImpl {
+interface ArtistRepository {
     /**
      * give to id return fetching artist list.
      * @param genreID, String

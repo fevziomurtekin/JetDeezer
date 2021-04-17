@@ -26,4 +26,16 @@ class DeezerClient @Inject constructor(
 
     suspend fun fetchSearchAlbum(q:String)
             = deezerService.fetchSearchAlbum(q)
+
+    suspend fun fetchChartAlbums()
+            = deezerService.fetchChartAlbums()
+
+    suspend fun fetchRadios()
+            = deezerService.fetchRadios()
+
+    suspend fun fetchChartArtists()
+            = deezerService.fetchChartArtists()
+
+    suspend fun fetchChartPodcasts()
+            = deezerService.fetchChartPodcasts()
 }

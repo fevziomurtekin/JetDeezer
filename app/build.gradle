@@ -86,6 +86,7 @@ dependencies {
 
     implementation Libs.AndroidX.Lifecycle.viewModelKtx
     implementation Libs.Hilt.android
+    implementation Libs.Hilt.nav_viewmodel
     implementation Libs.Hilt.viewmodel
     kapt Libs.Hilt.android_compiler
     kapt Libs.Hilt.compiler

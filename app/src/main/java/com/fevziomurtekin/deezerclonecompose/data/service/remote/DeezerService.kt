@@ -36,4 +36,21 @@ interface DeezerService{
     @GET(Endpoints.SEARCH)
     suspend fun fetchSearchAlbum(@Query("q") q:String)
             : Response<SearchResponse>
+
+    @GET(Endpoints.RADIO)
+    suspend fun fetchRadios()
+            : Response<GenreResponse>
+
+    @GET(Endpoints.CHART_ARTIST)
+    suspend fun fetchChartArtists()
+            : Response<ArtistsResponse>
+
+    @GET(Endpoints.CHART_PODCAST)
+    suspend fun fetchChartPodcasts()
+            : Response<ArtistsResponse>
+
+    suspend fun fetchChartAlbums()
+            : Response<AlbumDetailsResponse>
+
+
 }

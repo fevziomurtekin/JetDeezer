@@ -112,6 +112,7 @@ object Libs {
     object Hilt {
         private const val version = "2.31.2-alpha"
         private const val android_version = "1.0.0-alpha02"
+        private const val nav_version = "1.0.0-alpha01"
 
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"
@@ -119,6 +120,7 @@ object Libs {
         const val android_compiler = "androidx.hilt:hilt-lifecycle-viewmodel:$android_version"
         const val compiler = "com.google.dagger:hilt-compiler:$version"
         const val testing = "com.google.dagger:hilt-android-testing:$version"
+        const val nav_viewmodel = "androidx.hilt:hilt-navigation-compose:$nav_version"
     }
 
     object JUnit {
