@@ -1,9 +1,7 @@
 package com.fevziomurtekin.deezerclonecompose.home
 
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
-import com.fevziomurtekin.deezerclonecompose.data.response.AlbumData
-import com.fevziomurtekin.deezerclonecompose.data.response.ArtistData
-import com.fevziomurtekin.deezerclonecompose.data.response.Genre
+import com.fevziomurtekin.deezerclonecompose.data.response.*
 
 /**
  * @author: fevziomurtekin
@@ -13,11 +11,11 @@ import com.fevziomurtekin.deezerclonecompose.data.response.Genre
 data class HomeViewState(
     var genres: DeezerResult<List<Genre>?>
         = DeezerResult.Loading,
-    var podcasts: DeezerResult<List<ArtistData>>
+    var podcasts: DeezerResult<List<Podcast>>
         = DeezerResult.Loading,
     var artists: DeezerResult<List<ArtistData>>
         = DeezerResult.Loading,
-    var albums: DeezerResult<List<AlbumData>>
+    var albums: DeezerResult<List<Album>>
         = DeezerResult.Loading,
     var isRefresh:Boolean = false
 )

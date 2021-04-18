@@ -24,12 +24,12 @@ class HomeRepositoryImpl @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ): HomeRepository {
 
-    override suspend fun fetchChartAlbums(): Flow<DeezerResult<List<AlbumData>>> = flow {
+    override suspend fun fetchChartAlbums(): Flow<DeezerResult<List<Album>>> = flow {
         remoteCall {
             deezerClient.fetchChartAlbums()
         }.let { apiResult->
             apiResult.isSuccessAndNotNull().letOnFalseOnSuspend {
-                (apiResult.getResult() as? AlbumDetailsResponse)
+                (apiResult.getResult() as? AlbumResponse)
                     ?.data?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
@@ -54,12 +54,12 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }.flowOn(ioDispatcher)
 
-    override suspend fun fetchChartPodcasts(): Flow<DeezerResult<List<ArtistData>>> = flow {
+    override suspend fun fetchChartPodcasts(): Flow<DeezerResult<List<Podcast>>> = flow {
         remoteCall {
             deezerClient.fetchChartPodcasts()
         }.let { apiResult->
             apiResult.isSuccessAndNotNull().letOnFalseOnSuspend {
-                (apiResult.getResult() as? ArtistsResponse)
+                (apiResult.getResult() as? PodcastResponse)
                     ?.data?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
@@ -92,7 +92,7 @@ interface HomeRepository  {
 
     suspend fun fetchChartArtists(): Flow<DeezerResult<List<ArtistData>>>
 
-    suspend fun fetchChartPodcasts(): Flow<DeezerResult<List<ArtistData>>>
+    suspend fun fetchChartPodcasts(): Flow<DeezerResult<List<Podcast>>>
 
-    suspend fun fetchChartAlbums(): Flow<DeezerResult<List<AlbumData>>>
+    suspend fun fetchChartAlbums(): Flow<DeezerResult<List<Album>>>
 }

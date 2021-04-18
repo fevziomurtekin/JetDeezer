@@ -47,10 +47,11 @@ interface DeezerService{
 
     @GET(Endpoints.CHART_PODCAST)
     suspend fun fetchChartPodcasts()
-            : Response<ArtistsResponse>
+            : Response<PodcastResponse>
 
+    @GET(Endpoints.CHART_ALBUM)
     suspend fun fetchChartAlbums()
-            : Response<AlbumDetailsResponse>
+            : Response<AlbumResponse>
 
 
 }

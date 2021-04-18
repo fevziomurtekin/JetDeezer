@@ -1,10 +1,12 @@
 package com.fevziomurtekin.deezerclonecompose.data.response
 
 import com.squareup.moshi.Json
+import retrofit2.http.Field
 
 
 data class ArtistsResponse(
-    @field:Json(name = "data") val data: List<ArtistData>
+    @field:Json(name = "data") val data: List<ArtistData>,
+    @field:Json(name = "total") val total: Int,
 )
 
 data class ArtistData(
