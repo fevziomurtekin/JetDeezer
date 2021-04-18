@@ -1,4 +1,4 @@
-package com.fevziomurtekin.deezerclonecompose.ui.main
+package com.fevziomurtekin.deezerclonecompose.main
 
 import com.fevziomurtekin.deezerclonecompose.core.utils.letOnFalseOnSuspend
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
@@ -19,10 +19,10 @@ import javax.inject.Inject
  * @date: 17/04/2021
  */
 
-abstract class MainRepositoryImpl @Inject constructor(
+class HomeRepositoryImpl @Inject constructor(
     private val deezerClient: DeezerClient,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
-): MainRepository {
+): HomeRepository {
 
     override suspend fun fetchChartAlbums(): Flow<DeezerResult<List<AlbumData>>> = flow {
         remoteCall {
@@ -33,7 +33,7 @@ abstract class MainRepositoryImpl @Inject constructor(
                     ?.data?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
-                    emit(DeezerResult.Error(TypeCastException("unkown error.")))
+                    emit(DeezerResult.Error(TypeCastException("unknown error.")))
                 }
             }
         }
@@ -48,7 +48,7 @@ abstract class MainRepositoryImpl @Inject constructor(
                     ?.data?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
-                    emit(DeezerResult.Error(TypeCastException("unkown error.")))
+                    emit(DeezerResult.Error(TypeCastException("unknown error.")))
                 }
             }
         }
@@ -63,7 +63,7 @@ abstract class MainRepositoryImpl @Inject constructor(
                     ?.data?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
-                    emit(DeezerResult.Error(TypeCastException("unkown error.")))
+                    emit(DeezerResult.Error(TypeCastException("unknown error.")))
                 }
             }
         }
@@ -78,7 +78,7 @@ abstract class MainRepositoryImpl @Inject constructor(
                     ?.data?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
-                    emit(DeezerResult.Error(TypeCastException("unkown error.")))
+                    emit(DeezerResult.Error(TypeCastException("unknown error.")))
                 }
             }
         }
@@ -86,7 +86,7 @@ abstract class MainRepositoryImpl @Inject constructor(
 
 }
 
-interface MainRepository  {
+interface HomeRepository  {
 
     suspend fun fetchRadios(): Flow<DeezerResult<List<Genre>>>
 

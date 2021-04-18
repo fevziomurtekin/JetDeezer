@@ -1,7 +1,5 @@
-package com.fevziomurtekin.deezerclonecompose.ui.home
+package com.fevziomurtekin.deezerclonecompose.home
 
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -21,12 +20,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
 import com.fevziomurtekin.deezerclonecompose.data.response.Genre
-import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
-import com.fevziomurtekin.deezerclonecompose.ui.main.SplashScreen
+import com.fevziomurtekin.deezerclonecompose.main.DeezerViewModel
+import com.fevziomurtekin.deezerclonecompose.main.SplashScreen
 import com.fevziomurtekin.deezerclonecompose.ui.util.CircularLoadingView
 import com.fevziomurtekin.deezerclonecompose.ui.util.ErrorScreen
 import com.fevziomurtekin.deezerclonecompose.ui.util.Screens
@@ -36,33 +36,29 @@ import dev.chrisbanes.accompanist.imageloading.MaterialLoadingImage
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(navController: NavHostController, viewModel: DeezerViewModel) {
+fun HomeScreen(navController: NavHostController) {
+    val viewModel = hiltNavGraphViewModel<HomeViewModel>()
     val scope = rememberCoroutineScope()
-    viewModel.fetchGenreList()
-    val genres = viewModel.genreState
-    val isShownSplash = viewModel.splashShown.observeAsState(true)
-    viewModel.showSplashScreen()
+    viewModel.loadData()
+    val homeViewState = viewModel.state.collectAsState()
 
-    if(isShownSplash.value) {
-        SplashScreen()
-    } else {
-        when (val result = genres.value) {
-            is DeezerResult.Error -> {
-                ErrorScreen(retryClick = {
-                    scope.launch {
-                        /* TODO retry click */
-                    }
-                })
-            }
-            is DeezerResult.Success -> {
-                result.data?.let { GenreList(it, navController) }
-            }
-            else -> {
-                CircularLoadingView()
-            }
+    when (val result = homeViewState.value.genres) {
+        is DeezerResult.Error -> {
+            ErrorScreen(retryClick = {
+                scope.launch {
+                    /* TODO retry click */
+                }
+            })
+        }
+        is DeezerResult.Success -> {
+            result.data?.let { GenreList(it, navController) }
+        }
+        else -> {
+            CircularLoadingView()
         }
     }
 }
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

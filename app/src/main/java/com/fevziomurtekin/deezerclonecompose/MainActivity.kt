@@ -11,11 +11,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import com.fevziomurtekin.deezerclonecompose.ui.album.AlbumScreen
-import com.fevziomurtekin.deezerclonecompose.ui.artists.ArtistScreen
-import com.fevziomurtekin.deezerclonecompose.ui.details.DetailScreen
-import com.fevziomurtekin.deezerclonecompose.ui.home.HomeScreen
-import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
+import com.fevziomurtekin.deezerclonecompose.album.AlbumScreen
+import com.fevziomurtekin.deezerclonecompose.artists.ArtistScreen
+import com.fevziomurtekin.deezerclonecompose.details.DetailScreen
+import com.fevziomurtekin.deezerclonecompose.home.HomeScreen
+import com.fevziomurtekin.deezerclonecompose.main.DeezerViewModel
 import com.fevziomurtekin.deezerclonecompose.ui.theme.DeezerCloneComposeTheme
 import com.fevziomurtekin.deezerclonecompose.ui.util.ScreenArguments
 import com.fevziomurtekin.deezerclonecompose.ui.util.Screens
@@ -49,7 +49,7 @@ private fun RoutesToScreen(
 ) {
     NavHost(navController = navController, startDestination = Screens.HOME, builder = {
         composable(Screens.HOME) {
-            HomeScreen(navController, viewModel)
+            HomeScreen(navController)
         }
 
         composable(

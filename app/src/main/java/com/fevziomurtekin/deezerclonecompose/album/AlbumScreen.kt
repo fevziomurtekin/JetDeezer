@@ -1,4 +1,4 @@
-package com.fevziomurtekin.deezerclonecompose.ui.album
+package com.fevziomurtekin.deezerclonecompose.album
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
 import com.fevziomurtekin.deezerclonecompose.data.response.AlbumData
-import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
+import com.fevziomurtekin.deezerclonecompose.main.DeezerViewModel
 import com.fevziomurtekin.deezerclonecompose.ui.util.CircularLoadingView
 import com.fevziomurtekin.deezerclonecompose.ui.util.ErrorScreen
 import dev.chrisbanes.accompanist.coil.CoilImage

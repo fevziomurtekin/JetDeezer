@@ -3,6 +3,8 @@ package com.fevziomurtekin.deezerclonecompose.di
 import com.fevziomurtekin.deezerclonecompose.data.repository.*
 import com.fevziomurtekin.deezerclonecompose.data.service.local.DeezerDao
 import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
+import com.fevziomurtekin.deezerclonecompose.main.HomeRepository
+import com.fevziomurtekin.deezerclonecompose.main.HomeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,17 +17,22 @@ import dagger.hilt.android.scopes.ViewModelScoped
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun provideGenreRepository(
+    abstract fun bindsHomeRepository(
+            homeRepositoryImpl: HomeRepositoryImpl
+    ): HomeRepository
+
+    @Binds
+    abstract fun bindsGenreRepository(
         genreRepositoryImpl: GenreRepositoryImpl
     ): GenreRepository
 
     @Binds
-    abstract fun provideArtistRepository(
+    abstract fun bindsArtistRepository(
         artistRepositoryImpl: ArtistRepositoryImpl
     ): ArtistRepository
 
     @Binds
-    abstract fun provideAlbumRepository(
+    abstract fun bindsAlbumRepository(
         albumRepositoryImpl: AlbumRepositoryImpl
     ): AlbumRepository
 

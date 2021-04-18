@@ -16,11 +16,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 
 private const val FAKE_DELAY_TIME = 1500L
 
-class ArtistRepositoryImpl(
+class ArtistRepositoryImpl @Inject constructor(
     private val deezerClient: DeezerClient,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ): ArtistRepository {

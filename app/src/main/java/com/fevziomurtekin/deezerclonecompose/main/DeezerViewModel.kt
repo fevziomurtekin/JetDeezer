@@ -1,4 +1,4 @@
-package com.fevziomurtekin.deezerclonecompose.ui.main
+package com.fevziomurtekin.deezerclonecompose.main
 
 import android.accounts.NetworkErrorException
 import androidx.annotation.VisibleForTesting
@@ -90,7 +90,7 @@ class DeezerViewModel @Inject constructor(
                 artistRepository
                         .fetchArtistList(genreID = genreID)
                         .collect { artist->
-                            _artistsState.value = artist
+                            _artistsState.value = artist as DeezerResult<List<ArtistData>?>
                         }
             }catch (e: NetworkErrorException){
                 isNetworkError.value = true
@@ -105,7 +105,7 @@ class DeezerViewModel @Inject constructor(
                 artistRepository
                     .fetchArtistDetails(artistID = artistID)
                     .collect { artistDetails->
-                        _artistDetailState.value = artistDetails
+                        _artistDetailState.value = artistDetails as DeezerResult<ArtistDetailResponse>
                     }
             }catch (e: NetworkErrorException){
                 isNetworkError.value = true
@@ -119,7 +119,7 @@ class DeezerViewModel @Inject constructor(
                 artistRepository
                         .fetchArtistAlbums(artistID = artistID)
                         .collect { artistAlbums->
-                            _artistAlbumsState.value = artistAlbums
+                            _artistAlbumsState.value = artistAlbums as DeezerResult<ArtistAlbumResponse>
                         }
             }catch (e: NetworkErrorException){
                 isNetworkError.value = true
@@ -133,7 +133,7 @@ class DeezerViewModel @Inject constructor(
                 albumRepository
                     .fetchAlbumDetails(albumID = albumID)
                     .collect { albumDetails ->
-                        _albumDetailsState.value = albumDetails
+                        _albumDetailsState.value = albumDetails as DeezerResult<List<AlbumData>>
                     }
             }catch (e: NetworkErrorException){
                 isNetworkError.value = true

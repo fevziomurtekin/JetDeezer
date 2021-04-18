@@ -1,4 +1,4 @@
-package com.fevziomurtekin.deezerclonecompose.ui.artists
+package com.fevziomurtekin.deezerclonecompose.artists
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
 import com.fevziomurtekin.deezerclonecompose.data.response.ArtistDetailResponse
-import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
+import com.fevziomurtekin.deezerclonecompose.main.DeezerViewModel
 import com.fevziomurtekin.deezerclonecompose.ui.util.CircularLoadingView
 import com.fevziomurtekin.deezerclonecompose.ui.util.ErrorScreen
 import dev.chrisbanes.accompanist.coil.CoilImage

@@ -12,8 +12,10 @@ import com.fevziomurtekin.deezerclonecompose.data.service.remote.DeezerClient
 import com.fevziomurtekin.deezerclonecompose.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.lang.Exception
 import javax.inject.Inject
 
 class GenreRepositoryImpl @Inject constructor(
@@ -30,10 +32,12 @@ class GenreRepositoryImpl @Inject constructor(
                     ?.let {
                         emit(DeezerResult.Success(it))
                     } ?: run {
-                    emit(DeezerResult.Error(TypeCastException("unkown error.")))
+                    emit(DeezerResult.Error(TypeCastException("unknown error.")))
                 }
             }
         }
+    }.catch { e->
+        emit(DeezerResult.Error(Exception(e)))
     }.flowOn(ioDispatcher)
 
 }

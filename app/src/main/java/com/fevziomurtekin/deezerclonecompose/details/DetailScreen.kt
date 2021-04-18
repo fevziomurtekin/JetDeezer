@@ -1,4 +1,4 @@
-package com.fevziomurtekin.deezerclonecompose.ui.details
+package com.fevziomurtekin.deezerclonecompose.details
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -25,8 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
 import com.fevziomurtekin.deezerclonecompose.data.DeezerResult
 import com.fevziomurtekin.deezerclonecompose.data.response.ArtistData
-import com.fevziomurtekin.deezerclonecompose.ui.home.GenreList
-import com.fevziomurtekin.deezerclonecompose.ui.main.DeezerViewModel
+import com.fevziomurtekin.deezerclonecompose.main.DeezerViewModel
 import com.fevziomurtekin.deezerclonecompose.ui.util.CircularLoadingView
 import com.fevziomurtekin.deezerclonecompose.ui.util.ErrorScreen
 import com.fevziomurtekin.deezerclonecompose.ui.util.Screens
